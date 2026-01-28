@@ -168,7 +168,7 @@ pip install -r requirements.txt
 3. Start the bot:
 
 ```bash
-python bot.py
+python app.py
 ```
 
 ### Workflow
@@ -222,9 +222,9 @@ After success:
 
 ## Deliverables Checklist
 
-✔ Source code (`bot.py` + `recognize_image.py`)
+✔ Source code
 ✔ Sample Excel file
-✔ Captcha embeddings database (`embeddings.pkl`)
+✔ Captcha embeddings database
 ✔ Screen recording demonstrating:
 
 * File selection
