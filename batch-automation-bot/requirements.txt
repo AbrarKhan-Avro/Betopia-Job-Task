@@ -1,0 +1,9 @@
+pyside6
+selenium
+pandas
+openpyxl
+torch
+torchvision
+pillow
+numpy
+scikit-learn
