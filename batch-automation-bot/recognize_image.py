@@ -7,24 +7,21 @@ from torchvision import models, transforms
 from torchvision.models import ResNet18_Weights
 from sklearn.metrics.pairwise import cosine_similarity
 
-# -------------------------------
 # Load saved embeddings database
-# -------------------------------
+
 with open("embeddings.pkl", "rb") as f:
     saved_embeddings, image_names = pickle.load(f)
 
 saved_embeddings = np.array(saved_embeddings)
 
-# -------------------------------
 # Load pretrained ResNet18 model
-# -------------------------------
+
 model = models.resnet18(weights=ResNet18_Weights.DEFAULT)
 model = torch.nn.Sequential(*list(model.children())[:-1])
 model.eval()
 
-# -------------------------------
 # Image preprocessing
-# -------------------------------
+
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor()

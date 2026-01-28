@@ -24,17 +24,14 @@ class FormBot:
 
         self.last_captcha_src = None
 
-    # =========================
     # FORM LOAD
-    # =========================
     def open_form(self):
         self.driver.get(FORM_URL)
         time.sleep(2)
         self.capture_or_update_captcha(force=True)
 
-    # =========================
     # CAPTCHA HANDLER
-    # =========================
+
     def capture_or_update_captcha(self, force=False):
         try:
             captcha_img = self.driver.find_element(By.CLASS_NAME, "form-captcha-image")
@@ -61,9 +58,8 @@ class FormBot:
         except Exception as e:
             self.log(f"⚠️ Captcha capture failed: {e}")
 
-    # =========================
     # FORM FILLING
-    # =========================
+
     def fill_form(self, row):
         self.wait.until(EC.presence_of_element_located((By.ID, "first_11"))).send_keys(row["FirstName"])
         self.driver.find_element(By.ID, "last_11").send_keys(row["LastName"])
@@ -84,9 +80,8 @@ class FormBot:
         time.sleep(0.5)
         self.driver.execute_script("arguments[0].click();", checkbox)
 
-    # =========================
     # CAPTCHA SOLVE + SUBMIT
-    # =========================
+
     def solve_and_submit_captcha(self):
         captcha_text = recognize_captcha(self.captcha_path)
 
@@ -119,9 +114,8 @@ class FormBot:
             self.log(f"⚠️ Submit failed: {e}")
             return False
 
-    # =========================
     # STRICT SUBMISSION WAIT
-    # =========================
+
     def wait_for_captcha_and_submit(self):
         self.log("🤖 Auto-solving captcha...")
 
@@ -129,7 +123,6 @@ class FormBot:
         submitted = False
 
         while True:
-            # ✅ THANK YOU PAGE
             try:
                 confirmation = WebDriverWait(self.driver, 2).until(
                     EC.presence_of_element_located(
@@ -140,7 +133,6 @@ class FormBot:
                 if confirmation.is_displayed():
                     self.log("✅ CONFIRMED: Submission successful")
 
-                    # 🕒 Stay on Thank You page
                     time.sleep(3)
 
                     self.cleanup_after_success()
@@ -166,9 +158,8 @@ class FormBot:
 
             time.sleep(1)
 
-    # =========================
     # CLEANUP
-    # =========================
+
     def cleanup_after_success(self):
         if os.path.exists(self.captcha_path):
             os.remove(self.captcha_path)

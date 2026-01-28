@@ -11,9 +11,8 @@ from excel_utils import load_excel, save_excel
 from bot import FormBot
 
 
-# ==============================
 # Background Worker Thread
-# ==============================
+
 class BotWorker(QThread):
     log_signal = Signal(str)
     progress_signal = Signal(int, int)
@@ -26,7 +25,7 @@ class BotWorker(QThread):
         self._paused = False
         self._stopped = False
 
-        # 🔥 TRACKER: count already-success rows
+        # TRACKER: count already-success rows
         self.completed = int((df["Status"].str.lower() == "success").sum())
 
     def run(self):
@@ -38,7 +37,7 @@ class BotWorker(QThread):
                 self.log_signal.emit("🛑 Batch stopped by user")
                 break
 
-            # 🔥 TRACKER: skip already successful rows
+            # TRACKER: skip already successful rows
             if str(row.get("Status", "")).strip().lower() == "success":
                 self.progress_signal.emit(self.completed, total)
                 continue
@@ -82,9 +81,8 @@ class BotWorker(QThread):
         self._stopped = True
 
 
-# ==============================
 # Main UI Application
-# ==============================
+
 class App(QWidget):
     def __init__(self):
         super().__init__()
